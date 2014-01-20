@@ -1,6 +1,6 @@
 ### Description ###
 
-Setup an emscripten build environment.
+This is a Chef cookbook to setup an emscripten build environment.
 
 What happens under the hood:
 
