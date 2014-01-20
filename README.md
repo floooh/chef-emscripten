@@ -46,7 +46,7 @@ at http://llvm.org/releases/3.2
 * `node['emscripten']['clang']['system'] = 'linux-ubuntu-12.04'`: system identifier for the clang precompiled tarball
 * `default['emscripten']['clang']['url_prefix'] = 'http://llvm.org/releases'`: where to find the clang tarballs
 
-The full download URL for the clang tarball is built from _version_, _arch_, _system_ and _url_prefix_, the default is:
+The full download URL for the clang tarball is built from **version**, **arch**, **system** and **url_prefix**, the default is:
 
 **http://llvm.org/releases/3.2/clang+llvm-3.2-x86_64-linux-ubuntu-12.04.tar.gz**
 
