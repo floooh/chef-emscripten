@@ -79,5 +79,5 @@ bash "update_profile" do
         echo "export EMSCRIPTEN=#{rootpath}/emscripten" >>.bash_profile
         echo "export PATH=$PATH:#{rootpath}/emscripten" >>.bash_profile
     EOH
-    # not_if "test -e .bash_profile && grep -q EMSCRIPTEN .bash_profile"
+    not_if "test -e .bash_profile && grep -q EMSCRIPTEN .bash_profile"
 end
