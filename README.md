@@ -6,12 +6,12 @@ What happens under the hood:
 
 * makes sure that git, python and node.js is installed (through standard cookbooks)
 * installs a JRE (default is the package 'default-jre')
-* creates a .emscripten file in the user's home directory
-* create a directory /usr/local/src/emscripten-sdk
-* download and install llvm+clang 3.2 tarball to /usr/local/src/emscripten-sdk/clang
-* git clone the emscripten sdk to /usr/local/src/emscripten-sdk/emscripten
+* creates a ~/.emscripten file
+* creates a ~/emscripten-sdk directory 
+* download and install llvm+clang 3.2 tarball to ~/emscripten-sdk/clang
+* git clone the emscripten sdk to ~/emscripten-sdk/emscripten
 * git checkout the wanted branch (default is 'master')
-* create a /etc/profile.d/emscripten-sdk.sh with the EMSCRIPTEN environment variable, and PATH to the emscripten directory
+* add EMSCRIPTEN environment variable and path to .bash_profile
 
 ### Requirements ###
 #### Platform: ####
@@ -35,7 +35,7 @@ at http://llvm.org/releases/3.2
 
 * `node['emscripten']['user'] = 'vagrant'`: user for file permissions and determining home dir
 * `node['emscripten']['group'] = 'vagrant'`: group for file permissions
-* `node['emscripten']['rootpath'] = '/usr/local/src/emscripten-sdk'`: where to put the files
+* `node['emscripten']['rootpath'] = '/home/vagrant/emscripten-sdk'`: where to put the files
 * `node'emscripten']['url'] = 'git://github.com/kripken/emscripten.git'`: where to get the emscripten SDK
 * `node['emscripten']['branch'] = 'master'`: what git branch to checkout (alternative: 'incoming')
 * `node['emscripten']['python'] = '/usr/bin/python'`: which python executable emscripten uses (goes into .emscripten file)

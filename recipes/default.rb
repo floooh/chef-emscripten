@@ -38,9 +38,8 @@ end
 
 # make sure the sdk root directory exists
 directory "#{rootpath}" do
-    owner "root"
-    group "root"
-    mode "0755"
+    owner "#{user}"
+    group "#{group}"
     action :create
 end
 
@@ -50,16 +49,16 @@ ark "clang" do
     version "#{clang_version}"
     url "#{clang_url}"
     action :put
-    owner "root"
-    group "root"
+    owner "#{user}"
+    group "#{group}"
 end
 
 # clone emscripten
 git "#{rootpath}/emscripten" do 
     repository "#{repo}"
     revision "#{branch}"
-    user "root"
-    group "root"
+    user "#{user}"
+    group "#{group}"
     action :sync
 end
 
@@ -67,24 +66,18 @@ end
 bash "checkout" do
     cwd "#{rootpath}/emscripten"
     code "git checkout #{branch}"
-    user "root"
-    group "root"
+    user "#{user}"
+    group "#{group}"
 end
 
-# set a persistent EMSCRIPTEN variable to point to the emscripten directory
-file "/etc/profile.d/emscripten-sdk.sh" do
-    owner "root"
-    group "root"
-    mode "0644"
-    content <<-EOH
-    export EMSCRIPTEN=#{rootpath}/emscripten
-    export PATH=$PATH:#{rootpath}/emscripten
+# add EMSCRIPTEN env var and PATH to .bash_profile
+bash "update_profile" do
+    cwd "#{home}"
+    user "#{user}"
+    group "#{user}"
+    code <<-EOH
+        echo "export EMSCRIPTEN=#{rootpath}/emscripten" >>.bash_profile
+        echo "export PATH=$PATH:#{rootpath}/emscripten" >>.bash_profile
     EOH
+    # not_if "test -e .bash_profile && grep -q EMSCRIPTEN .bash_profile"
 end
-
-
-
-
-
-
-

@@ -3,10 +3,11 @@
 #   Attributes: default
 #
 
-# user name and root path for which to install all emscripten related files (must be in user dir!)
+# user name and root path for which to install all emscripten related files
+# we put this stuff locally into the user directory by default
 default['emscripten']['user'] = 'vagrant'
 default['emscripten']['group'] = 'vagrant'
-default['emscripten']['rootpath'] = '/usr/local/src/emscripten-sdk'
+default['emscripten']['rootpath'] = '/home/vagrant/emscripten-sdk'
 
 # git URL and branch name from which to fetch the emscripten SDK
 default['emscripten']['url']    = 'git://github.com/kripken/emscripten.git'
