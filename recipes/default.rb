@@ -63,15 +63,6 @@ git "#{rootpath}/emscripten" do
   action :sync
 end
 
-# actually switch to the right branch
-# (the git resource will setup some branch "deploy")
-bash 'checkout' do
-  cwd "#{rootpath}/emscripten"
-  code "git checkout #{branch}"
-  user user
-  group group
-end
-
 # add EMSCRIPTEN env var and PATH to .bash_profile
 bash 'update_profile' do
   cwd home

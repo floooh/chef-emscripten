@@ -10,7 +10,6 @@ What happens under the hood:
 * creates a ~/emscripten-sdk directory 
 * download and install llvm+clang 3.2 tarball to ~/emscripten-sdk/clang
 * git clone the emscripten sdk to ~/emscripten-sdk/emscripten
-* git checkout the wanted branch (default is 'master')
 * add EMSCRIPTEN environment variable and path to .bash_profile
 
 ### Requirements ###
