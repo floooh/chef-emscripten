@@ -1,3 +1,4 @@
+# encoding: UTF-8
 name             'emscripten'
 maintainer       'Andre Weissflog'
 maintainer_email 'floooh@gmail.com'
@@ -10,5 +11,3 @@ depends          'git'
 depends          'python'
 depends          'nodejs'
 depends          'ark'
-
-

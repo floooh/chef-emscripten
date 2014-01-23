@@ -1,3 +1,4 @@
+# encoding: UTF-8
 #
 #   Cookbook Name: emscripten
 #   Attributes: default
@@ -30,5 +31,5 @@ default['emscripten']['clang']['arch'] = 'x86_64'
 default['emscripten']['clang']['system'] = 'linux-ubuntu-12.04'
 
 # the download url
-# full url will be "[url_prefix]/[version]/clang+llvm-[version]-[arch]-[system]"
+# full url is "[url_prefix]/[version]/clang+llvm-[version]-[arch]-[system]"
 default['emscripten']['clang']['url_prefix'] = 'http://llvm.org/releases'

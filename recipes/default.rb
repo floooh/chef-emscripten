@@ -1,3 +1,4 @@
+# encoding: UTF-8
 #
 # Cookbook Name:: emscripten
 # Recipe:: default
@@ -30,54 +31,55 @@ package "#{node['emscripten']['jre']}"
 
 # setup the .emscripten file
 template "#{home}/.emscripten" do
-    source "emscripten.erb"
-    owner "#{user}"
-    group "#{group}"
-    mode "0644"
+  source 'emscripten.erb'
+  owner "#{user}"
+  group "#{group}"
+  mode '0644'
 end
 
 # make sure the sdk root directory exists
 directory "#{rootpath}" do
-    owner "#{user}"
-    group "#{group}"
-    action :create
+  owner "#{user}"
+  group "#{group}"
+  action :create
 end
 
 # get clang binary tarball (FIXME: replace with official clang cookbook?)
-ark "clang" do
-    path "#{rootpath}"
-    version "#{clang_version}"
-    url "#{clang_url}"
-    action :put
-    owner "#{user}"
-    group "#{group}"
+ark 'clang' do
+  path "#{rootpath}"
+  version "#{clang_version}"
+  url "#{clang_url}"
+  action :put
+  owner "#{user}"
+  group "#{group}"
 end
 
 # clone emscripten
-git "#{rootpath}/emscripten" do 
-    repository "#{repo}"
-    revision "#{branch}"
-    user "#{user}"
-    group "#{group}"
-    action :sync
+git "#{rootpath}/emscripten" do
+  repository "#{repo}"
+  revision "#{branch}"
+  user "#{user}"
+  group "#{group}"
+  action :sync
 end
 
-# actually switch to the right branch (the git resource will setup some branch "deploy")
-bash "checkout" do
-    cwd "#{rootpath}/emscripten"
-    code "git checkout #{branch}"
-    user "#{user}"
-    group "#{group}"
+# actually switch to the right branch
+# (the git resource will setup some branch "deploy")
+bash 'checkout' do
+  cwd "#{rootpath}/emscripten"
+  code "git checkout #{branch}"
+  user "#{user}"
+  group "#{group}"
 end
 
 # add EMSCRIPTEN env var and PATH to .bash_profile
-bash "update_profile" do
-    cwd "#{home}"
-    user "#{user}"
-    group "#{user}"
-    code <<-EOH
-        echo "export EMSCRIPTEN=#{rootpath}/emscripten" >>.bash_profile
-        echo "export PATH=$PATH:#{rootpath}/emscripten" >>.bash_profile
-    EOH
-    not_if "test -e .bash_profile && grep -q EMSCRIPTEN .bash_profile"
+bash 'update_profile' do
+  cwd "#{home}"
+  user "#{user}"
+  group "#{user}"
+  code <<-EOH
+    echo "export EMSCRIPTEN=#{rootpath}/emscripten" >>.bash_profile
+    echo "export PATH=$PATH:#{rootpath}/emscripten" >>.bash_profile
+  EOH
+  not_if 'test -e .bash_profile && grep -q EMSCRIPTEN .bash_profile'
 end
