@@ -20,16 +20,3 @@ default['emscripten']['nodejs'] = '/usr/local/bin/node'
 
 # package name that provides the Jave Runtime Environment
 default['emscripten']['jre'] = 'default-jre'
-
-# what clang-version to use
-default['emscripten']['clang']['version'] = '3.2'
-
-# the architecture for the clang tarball
-default['emscripten']['clang']['arch'] = 'x86_64'
-
-# the system name for the clang tarball
-default['emscripten']['clang']['system'] = 'linux-ubuntu-12.04'
-
-# the download url
-# full url is "[url_prefix]/[version]/clang+llvm-[version]-[arch]-[system]"
-default['emscripten']['clang']['url_prefix'] = 'http://llvm.org/releases'

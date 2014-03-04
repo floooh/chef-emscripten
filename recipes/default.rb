@@ -18,14 +18,6 @@ branch = node['emscripten']['branch']
 rootpath = node['emscripten']['rootpath']
 home = "/home/#{user}"
 
-clang_version    = node['emscripten']['clang']['version']
-clang_arch       = node['emscripten']['clang']['arch']
-clang_system     = node['emscripten']['clang']['system']
-clang_url_prefix = node['emscripten']['clang']['url_prefix']
-clang_name       = "clang+llvm-#{clang_version}-#{clang_arch}-#{clang_system}"
-clang_tar        = "#{clang_name}.tar.gz"
-clang_url        = "#{clang_url_prefix}/#{clang_version}/#{clang_tar}"
-
 # make sure a JRE is installed
 package node['emscripten']['jre']
 
@@ -44,14 +36,22 @@ directory rootpath do
   action :create
 end
 
-# get clang binary tarball (FIXME: replace with official clang cookbook?)
-ark 'clang' do
-  path rootpath
-  version clang_version
-  url clang_url
-  action :put
-  owner user
+# get the fastcomp-LLVM repository
+git "#{rootpath}/emscripten-fastcomp" do
+  repository 'git://github.com/kripken/emscripten-fastcomp.git'
+  revision branch
+  user user
   group group
+  action :sync
+end
+
+# get the fastcomp-clang repository
+git "#{rootpath}/emscripten-fastcomp/tools/clang" do
+  repository 'git://github.com/kripken/emscripten-fastcomp-clang.git'
+  revision branch
+  user user
+  group group
+  action :sync
 end
 
 # clone emscripten
@@ -61,6 +61,19 @@ git "#{rootpath}/emscripten" do
   user user
   group group
   action :sync
+end
+
+# build clang
+bash 'build_clang' do
+  cwd "#{rootpath}/emscripten-fastcomp"
+  user user
+  group group
+  code <<-EOH
+    mkdir build
+    cd build
+    ../configure --enable-optimized --disable-assertions --enable-targets=host,js
+    make -j2
+  EOH
 end
 
 # add EMSCRIPTEN env var and PATH to .bash_profile
