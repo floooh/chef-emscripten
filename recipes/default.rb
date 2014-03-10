@@ -14,12 +14,18 @@ include_recipe 'ark'
 user = node['emscripten']['user']
 group = node['emscripten']['user']
 repo = node['emscripten']['url']
+repo_fastcomp = node['emscripten']['fastcomp_url']
+repo_fastcomp_clang = node['emscripten']['fastcomp_clang_url']
+
 branch = node['emscripten']['branch']
 rootpath = node['emscripten']['rootpath']
 home = "/home/#{user}"
 
 # make sure a JRE is installed
 package node['emscripten']['jre']
+
+# make sure a clang is installed, we need to compile clang with clang
+package node['emscripten']['clang']
 
 # setup the .emscripten file
 template "#{home}/.emscripten" do
@@ -38,7 +44,7 @@ end
 
 # get the fastcomp-LLVM repository
 git "#{rootpath}/emscripten-fastcomp" do
-  repository 'git://github.com/kripken/emscripten-fastcomp.git'
+  repository repo_fastcomp
   revision branch
   user user
   group group
@@ -47,7 +53,7 @@ end
 
 # get the fastcomp-clang repository
 git "#{rootpath}/emscripten-fastcomp/tools/clang" do
-  repository 'git://github.com/kripken/emscripten-fastcomp-clang.git'
+  repository repo_fastcomp_clang
   revision branch
   user user
   group group
@@ -63,7 +69,7 @@ git "#{rootpath}/emscripten" do
   action :sync
 end
 
-# build clang
+# build clang with clang
 bash 'build_clang' do
   cwd "#{rootpath}/emscripten-fastcomp"
   user user
@@ -71,7 +77,7 @@ bash 'build_clang' do
   code <<-EOH
     mkdir build
     cd build
-    ../configure --enable-optimized --disable-assertions --enable-targets=host,js
+    CC=/usr/bin/clang CXX=/usr/bin/clang++ ../configure --enable-optimized --disable-assertions --enable-targets=host,js
     make -j2
   EOH
 end
