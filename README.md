@@ -8,8 +8,8 @@ What happens under the hood:
 * installs a JRE (default is the package 'default-jre')
 * creates a ~/.emscripten file
 * creates a ~/emscripten-sdk directory 
-* installs standard clang-3.3 package to bootstrap the emscript-fastcomp LLVM backend
-* setup emscripten-fastcomp as described here: https://github.com/kripken/emscripten/wiki/LLVM-Backend
+* installs standard clang-3.3 package to bootstrap the emscripten-fastcomp LLVM backend
+* compile the fastcomp backend as described here: https://github.com/kripken/emscripten/wiki/LLVM-Backend
 * git clone the emscripten sdk to ~/emscripten-sdk/emscripten
 * add EMSCRIPTEN environment variable and path to .bash_profile
 
